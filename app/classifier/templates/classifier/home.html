@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+    <h1 class="mb-4">Animal Identifier & Search</h1>
+
+    <!-- Text Search Form -->
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search animal by name..." 
+                   value="{{ search_query|default:'' }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <!-- Image Upload Form -->
+    <form method="post" enctype="multipart/form-data" class="mb-5">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="file" name="image" accept="image/*" class="form-control" required>
+            <button type="submit" class="btn btn-success">Upload & Predict</button>
+        </div>
+    </form>
+
+    <!-- Display Uploaded Image -->
+    {% if uploaded_image %}
+        <div class="mb-4">
+            <h4>Uploaded Image:</h4>
+            <img src="/media/{{ uploaded_image }}" alt="Uploaded" class="img-fluid border" style="max-height: 400px;">
+        </div>
+    {% endif %}
+
+    <!-- Prediction Result -->
+    {% if prediction %}
+        <div class="alert alert-info">
+            <h4>Prediction: <strong>{{ prediction }}</strong></h4>
+        </div>
+
+        <h5>Top Probabilities:</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Animal</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, prob in probabilities %}
+                    <tr {% if name == prediction %}class="table-success"{% endif %}>
+                        <td>{{ name }}</td>
+                        <td>{{ prob|floatformat:4 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <!-- Animal Info (from search or prediction) -->
+    {% if animal_info %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3>{{ animal_info.name }} Information</h3>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Scientific Name</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.scientific_name }}</dd>
+
+                    <dt class="col-sm-4">Class</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.class }}</dd>
+
+                    <dt class="col-sm-4">Diet</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.diet }}</dd>
+
+                    <dt class="col-sm-4">Habitat</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.habitat }}</dd>
+
+                    <dt class="col-sm-4">Region</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.region|join:", " }}</dd>
+
+                    <dt class="col-sm-4">Size</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.size }}</dd>
+
+                    <dt class="col-sm-4">Weight</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.weight }}</dd>
+
+                    <dt class="col-sm-4">Lifespan</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.lifespan }}</dd>
+
+                    <dt class="col-sm-4">Behavior</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.behavior }}</dd>
+
+                    <dt class="col-sm-4">Conservation Status</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-warning">{{ animal_info.data.conservation_status }}</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Ecological Role</dt>
+                    <dd class="col-sm-8">{{ animal_info.data.ecological_role }}</dd>
+
+                    <dt class="col-sm-4">Fun Fact</dt>
+                    <dd class="col-sm-8 fst-italic">{{ animal_info.data.fun_fact }}</dd>
+                </dl>
+            </div>
+        </div>
+    {% elif prediction %}
+        <div class="alert alert-warning mt-4">
+            No detailed information available for <strong>{{ prediction }}</strong>.
+        </div>
+    {% elif search_query and not animal_info %}
+        <div class="alert alert-warning mt-4">
+            No animal found matching "{{ search_query }}".
+        </div>
+    {% endif %}
+
+</body>
+</html>
+
+v 1

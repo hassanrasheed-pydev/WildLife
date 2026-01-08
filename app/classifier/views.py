@@ -2,10 +2,11 @@ import os
 from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import QuerySet
 import tensorflow as tf
 from core.predict import predict_image
 from .models import Animals
+
 
 MODEL_PATH = os.path.join(
     settings.BASE_DIR,  
@@ -19,6 +20,9 @@ CLASS_NAMES = [
     "deer", "elk", "gray_fox", "hyena", "lion", "raccoon",
     "red_fox", "rhino", "tiger", "wolf", "zebra",
 ]
+
+UPLOAD_DIR = os.path.join(settings.BASE_DIR, "classifier_uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 model = tf.keras.models.load_model(MODEL_PATH)
 
@@ -47,7 +51,9 @@ def home(request):
     if request.method == "POST" and request.FILES.get("image"):
         img = request.FILES["image"]
 
-        img_path = os.path.join(settings.MEDIA_ROOT, img.name)
+        
+        img_path = os.path.join(UPLOAD_DIR, img.name)
+
         with open(img_path, "wb+") as f:
             for chunk in img.chunks():
                 f.write(chunk)
@@ -72,6 +78,5 @@ def home(request):
         context['animal_info'] = animal_info
         context['prediction'] = pred_class
         context['probabilities'] = list(zip(CLASS_NAMES, probs))
-        context['uploaded_image'] = img.name
 
     return render(request, "classifier/home.html", context)

@@ -1,16 +1,26 @@
 /* Wildlife Theme - Dark Forest & Snow */
 
 :root {
-    --forest-dark: #0d1f17;
-    --forest-deep: #1a2f26;
-    --pine: #2a4a3a;
-    --snow: #e8f4f8;
-    --ice: #b8d4de;
-    --frost: #94b8c5;
-    --accent: #5a9aae;
-    --border: #2d4a3d;
-    --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    /* backgrounds */
+    --forest-dark: #f8fafc;   /* main background (soft off-white) */
+    --forest-deep: #e2e6ea;   /* secondary background (slightly darker for navbar) */
+    --pine: #ffffff;           /* cards / sections */
+
+    /* text / light surfaces */
+    --snow: #0f172a;          /* main text (deep navy) */
+    --ice: #475569;           /* muted text */
+    --frost: #64748b;         /* subtle highlights */
+
+    /* accent */
+    --accent: #f97316;        /* orange pop stays 🔥 */
+
+    /* borders & effects */
+    --border: #cbd5e1;        /* slightly stronger border for contrast */
+
+    --shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 12px 30px rgba(15, 23, 42, 0.12);
 }
+
 
 * {
     margin: 0;
@@ -20,7 +30,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: linear-gradient(180deg, #0d1f17 0%, #1a2f26 100%);
+    background: var(--forest-deep);
     color: var(--snow);
     min-height: 100vh;
 }
@@ -64,7 +74,7 @@ nav a:hover {
 main {
     max-width: 440px;
     margin: 2rem auto;
-    background: var(--forest-deep);
+    background: var(--forest-dark);
     padding: 2rem;
     border-radius: 12px;
     box-shadow: var(--shadow);
@@ -162,14 +172,14 @@ p a:hover {
 
 .messages .error {
     background: rgba(220, 38, 38, 0.2);
-    color: #fca5a5;
+    color: #ff0000;
     border: 1px solid rgba(220, 38, 38, 0.4);
 }
 
 .messages .success {
     background: rgba(34, 197, 94, 0.2);
-    color: #86efac;
-    border: 1px solid rgba(34, 197, 94, 0.4);
+    color: #103001;
+    border: 1px solid #22c55e66;
 }
 
 .messages .info {
@@ -208,6 +218,6 @@ p a:hover {
     }
     
     input, button {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 16px; 
     }
 }

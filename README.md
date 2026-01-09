@@ -87,8 +87,6 @@ Handles image uploads, calls the ML prediction pipeline, and renders prediction 
 ### 📸 `classifier_uploads/`
 Directory where uploaded images are stored. Acts as Django's MEDIA directory and is created automatically.
 
-> 💡 **Tip:** Should not be committed to GitHub.
-
 ### 🤖 `core/` — Machine Learning Pipeline
 Contains pure ML code independent of Django:
 - `train.py` → Train CNN/ResNet model
@@ -144,18 +142,6 @@ Open your browser at: **http://127.0.0.1:8000/**
 - Classifier page requires authentication
 - Unauthorized users are redirected to login page
 - Implemented using Django decorators
-
----
-
-## 🚀 Future Improvements
-
-- [ ] Prediction confidence scores
-- [ ] Support for multiple wildlife species
-- [ ] Prediction history per user
-- [ ] Cloud storage for uploads (AWS S3, Google Cloud)
-- [ ] Dockerized deployment
-- [ ] API endpoints for mobile integration
-- [ ] Model performance metrics dashboard
 
 ---
 
